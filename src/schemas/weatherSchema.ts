@@ -1,70 +1,74 @@
 import z from "zod"
 
-const weatherListItemSchema = z.object({
-  dt: z.number(),
-  main: z.object({
-    temp: z.number(),
-    feels_like: z.number(),
-    temp_min: z.number(),
-    temp_max: z.number(),
-    pressure: z.number(),
-    sea_level: z.number(),
-    grnd_level: z.number(),
-    humidity: z.number(),
-    temp_kf: z.number(),
-  }),
-  weather: z.array(
-    z.object({
-      id: z.number(),
-      main: z.string(),
-      description: z.string(),
-      icon: z.string(),
-    })
-  ),
-  clouds: z.object({
-    all: z.number(),
-  }),
-  wind: z.object({
-    speed: z.number(),
-    deg: z.number(),
-    gust: z.number().optional(),
-  }),
-  visibility: z.number(),
-  pop: z.number(),
-  rain: z
-    .object({
-      "3h": z.number(),
-    })
-    .optional(),
-  snow: z
-    .object({
-      "3h": z.number(),
-    })
-    .optional(),
-  sys: z.object({
-    pod: z.string(),
-  }),
-  dt_txt: z.string(),
+const WeatherConditionSchema = z.object({
+  id: z.number(),
+  main: z.string(),
+  description: z.string(),
+  icon: z.string(),
 })
 
-export const forecastSchema = z.object({
-  cod: z.string(),
-  message: z.number(),
-  cnt: z.number(),
-  list: z.array(weatherListItemSchema),
-  city: z
-    .object({
-      id: z.number(),
-      name: z.string(),
-      coord: z.object({
-        lat: z.number(),
-        lon: z.number(),
-      }),
-      country: z.string(),
-      population: z.number(),
-      timezone: z.number(),
+const CommonWeatherSchema = z.object({
+  dt: z.number(),
+  temp: z.number(),
+  feels_like: z.number(),
+  pressure: z.number(),
+  humidity: z.number(),
+  dew_point: z.number(),
+  uvi: z.number().optional(),
+  clouds: z.number(),
+  visibility: z.number(),
+  wind_speed: z.number(),
+  wind_deg: z.number(),
+  weather: z.array(WeatherConditionSchema),
+  rain: z.object({ "1h": z.number() }).optional(),
+})
+
+export const WeatherResponseSchema = z.object({
+  lat: z.number(),
+  lon: z.number(),
+  timezone: z.string(),
+  timezone_offset: z.number(),
+
+  current: CommonWeatherSchema.extend({
+    sunrise: z.number(),
+    sunset: z.number(),
+  }),
+
+  hourly: z.array(
+    CommonWeatherSchema.extend({
+      pop: z.number(),
+    })
+  ),
+
+  daily: z.array(
+    z.object({
+      dt: z.number(),
       sunrise: z.number(),
       sunset: z.number(),
+      temp: z.object({
+        day: z.number(),
+        min: z.number(),
+        max: z.number(),
+        night: z.number(),
+        eve: z.number(),
+        morn: z.number(),
+      }),
+      feels_like: z.object({
+        day: z.number(),
+        night: z.number(),
+        eve: z.number(),
+        morn: z.number(),
+      }),
+      pressure: z.number(),
+      humidity: z.number(),
+      dew_point: z.number(),
+      wind_speed: z.number(),
+      wind_deg: z.number(),
+      weather: z.array(WeatherConditionSchema),
+      clouds: z.number(),
+      pop: z.number(),
+      rain: z.number().optional(),
+      uvi: z.number(),
     })
-    .optional(),
+  ),
 })
