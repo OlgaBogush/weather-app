@@ -37,16 +37,16 @@ const CurrentWeather = ({}: Props) => {
         </h3>
       </div>
 
-      <div className="flex justify-between w-full">
-        <div className="flex flex-col gap-2 items-center">
+      <div className="flex justify-between gap-6">
+        <div className="flex flex-col gap-2 items-center w-20">
           <p className="text-gray-500">Feels Like</p>
           <p>{Math.round(data.current.feels_like)}°C</p>
         </div>
-        <div className="flex flex-col gap-2 items-center">
+        <div className="flex flex-col gap-2 items-center w-20">
           <p className="text-gray-500">Humidity</p>
           <p>{data.current.humidity}%</p>
         </div>
-        <div className="flex flex-col gap-2 items-center">
+        <div className="flex flex-col gap-2 items-center w-20">
           <p className="text-gray-500">Wind</p>
           <p>{Math.round(data.current.wind_speed)} m/s</p>
         </div>
