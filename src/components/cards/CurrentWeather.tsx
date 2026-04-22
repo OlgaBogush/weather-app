@@ -3,12 +3,16 @@ import { getWeather } from "../../api"
 import Card from "./Card"
 import WeatherIcon from "../WeatherIcon"
 
-type Props = {}
+import type { Coords } from "../../type"
 
-const CurrentWeather = ({}: Props) => {
+type Props = {
+  coords: Coords
+}
+
+const CurrentWeather = ({ coords }: Props) => {
   const { data } = useSuspenseQuery({
-    queryKey: ["weather"],
-    queryFn: () => getWeather({ lat: 33, lon: -94 }),
+    queryKey: ["weather", coords],
+    queryFn: () => getWeather({ lat: coords.lat, lon: coords.lon }),
   })
   return (
     <Card
@@ -33,6 +37,7 @@ const CurrentWeather = ({}: Props) => {
           {new Intl.DateTimeFormat("ru", {
             hour: "numeric",
             minute: "numeric",
+            timeZone: data.timezone,
           }).format(new Date(data.current.dt * 1000))}
         </h3>
       </div>

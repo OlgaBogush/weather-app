@@ -9,12 +9,16 @@ import Uv from "/src/assets/uv.svg?react"
 import Wind from "/src/assets/wind.svg?react"
 import UpArrow from "/src/assets/uparrow.svg?react"
 
-type Props = {}
+import type { Coords } from "../../type"
 
-const AdditionalInfo = ({}: Props) => {
+type Props = {
+  coords: Coords
+}
+
+const AdditionalInfo = ({ coords }: Props) => {
   const { data } = useSuspenseQuery({
-    queryKey: ["weather"],
-    queryFn: () => getWeather({ lat: 33, lon: -94 }),
+    queryKey: ["weather", coords],
+    queryFn: () => getWeather({ lat: coords.lat, lon: coords.lon }),
   })
 
   return (
@@ -26,7 +30,7 @@ const AdditionalInfo = ({}: Props) => {
         <div key={label} className="flex justify-between">
           <div className="flex gap-4">
             <span className="text-gray-500">{label}</span>
-            <Icon className="size-8 invert" />
+            <Icon className="size-6 invert" />
           </div>
           <span>
             <CustomFormatComponent value={value} number={data.current[value]} />
@@ -53,7 +57,7 @@ function CustomFormatComponent({
   if (value === "wind_deg") {
     return (
       <UpArrow
-        className="size-8 invert"
+        className="size-6 invert"
         style={{ transform: `rotate(${number}deg)` }}
       />
     )

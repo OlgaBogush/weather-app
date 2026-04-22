@@ -1,16 +1,28 @@
-import type { FC } from "react"
+import { useState, type FC } from "react"
+import Map from "./components/Map"
+import CurrentWeather from "./components/cards/CurrentWeather"
 import HourlyForecast from "./components/cards/HourlyForecast"
 import DailyForecast from "./components/cards/DailyForecast"
-import CurrentWeather from "./components/cards/CurrentWeather"
 import AdditionalInfo from "./components/cards/AdditionalInfo"
 
+import type { Coords } from "./type"
+
 const App: FC = () => {
+  const [coords, setCoords] = useState<Coords>({ lat: 10, lon: 20 })
+
+  const onMapClick = (lat: number, lon: number) => {
+    setCoords({ lat, lon })
+  }
+
+  console.log(coords)
+
   return (
     <div className="flex flex-col gap-8">
-      <CurrentWeather />
-      <HourlyForecast />
-      <DailyForecast />
-      <AdditionalInfo />
+      <Map coords={coords} onMapClick={onMapClick} />
+      <CurrentWeather coords={coords} />
+      <HourlyForecast coords={coords} />
+      <DailyForecast coords={coords} />
+      <AdditionalInfo coords={coords} />
     </div>
   )
 }
