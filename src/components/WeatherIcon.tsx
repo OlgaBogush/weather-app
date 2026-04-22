@@ -1,11 +1,12 @@
 type Props = {
   source: string
+  className?: string
 }
 
-const WeatherIcon = ({ source }: Props) => {
+const WeatherIcon = ({ source, className }: Props) => {
   return (
     <img
-      className="size-8"
+      className={className ? className : "size-8"}
       src={`https://openweathermap.org/payload/api/media/file/${source}.png`}
       alt="weather icon"
     />
