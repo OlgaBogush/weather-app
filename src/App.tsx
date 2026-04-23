@@ -6,6 +6,7 @@ import DailyForecast from "./components/cards/DailyForecast"
 import AdditionalInfo from "./components/cards/AdditionalInfo"
 
 import type { Coords } from "./type"
+import LocationDropdown from "./components/dropdowns/LocationDropdown"
 
 const App: FC = () => {
   const [coords, setCoords] = useState<Coords>({ lat: 10, lon: 20 })
@@ -18,6 +19,7 @@ const App: FC = () => {
 
   return (
     <div className="flex flex-col gap-8">
+      <LocationDropdown />
       <Map coords={coords} onMapClick={onMapClick} />
       <CurrentWeather coords={coords} />
       <HourlyForecast coords={coords} />
