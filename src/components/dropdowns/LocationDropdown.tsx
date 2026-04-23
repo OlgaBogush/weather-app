@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from "react"
 import {
   Select,
   SelectContent,
@@ -7,9 +8,14 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const LocationDropdown = () => {
+type Props = {
+  location: string
+  setLocation: Dispatch<SetStateAction<string>>
+}
+
+const LocationDropdown = ({ location, setLocation }: Props) => {
   return (
-    <Select>
+    <Select value={location} onValueChange={(value) => setLocation(value)}>
       <SelectTrigger className="w-45">
         <SelectValue placeholder="Theme" />
       </SelectTrigger>

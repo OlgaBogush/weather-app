@@ -34,7 +34,6 @@ function MapClick({
   map.on("click", (e) => {
     const { lat, lng } = e.latlng
     map.panTo([lat, lng])
-    console.log(lat, lng)
     onMapClick(lat, lng)
   })
   return null

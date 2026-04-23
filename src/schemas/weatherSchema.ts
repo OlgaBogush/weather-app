@@ -19,6 +19,7 @@ const CommonWeatherSchema = z.object({
   visibility: z.number(),
   wind_speed: z.number(),
   wind_deg: z.number(),
+  wind_gust: z.number().optional(),
   weather: z.array(WeatherConditionSchema),
   rain: z.object({ "1h": z.number() }).optional(),
 })
